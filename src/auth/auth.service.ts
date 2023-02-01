@@ -16,8 +16,16 @@ export class AuthService {
     if (user.password !== dto.password)
       throw new UnauthorizedException('Incorect Credentials');
 
-    return user;
+    return this.signUser(user.id, user.email, 'user');
   }
 
   // signupLocal(dto: AuthDto) {}
+
+  signUser(userId: number, email: string, type: string) {
+    return this.jwtService.sign({
+      sub: userId,
+      email,
+      claim: type,
+    });
+  }
 }
